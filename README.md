@@ -29,9 +29,11 @@ SOH
 CAH
 TOA
 
-SinT = Fy/F
+SinT = Fy/F ==> Fy = SinT * F
 
 CosT = Fx/F ==> Fx= CosT * F
+
+
 
 
 
