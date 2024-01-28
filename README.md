@@ -1,5 +1,5 @@
 # SpaceProject
-Planet simulation using Python
+Planet simulation using Python.
 Please check the coding section of README file for better understanding.
 
 """
