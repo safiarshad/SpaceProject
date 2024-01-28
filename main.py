@@ -17,7 +17,7 @@ RED = (188, 39, 50)
 DARK_GREY = (80, 78, 81)
 BLACK = (0,0,0)
 
-FONT = pygame.font.SysFont("comicsans", 16)
+FONT = pygame.font.SysFont("comicsans", 18)
 
 
 class Planet:
@@ -44,8 +44,23 @@ class Planet:
     def draw(self, win): 
         x = self.x * self.SCALE + WIDTH / 2 #for the center cuz 00 is top left croner in pygame
         y = self.y * self.SCALE + HEIGHT / 2
+
+        if len(self.orbit) > 2:
+            updated_points = []
+            for point in self.orbit:
+                x, y = point
+                x = x * self.SCALE + WIDTH / 2
+                y = y * self.SCALE + HEIGHT / 2
+                updated_points.append((x, y))
+
+            pygame.draw.lines(win, self.color, False, updated_points, 2)#False is for end point and 2 for thikness (2 px)
         
+
         pygame.draw.circle(win, self.color, (x, y) , self.radius)
+        if not self.sun:
+            distance_text = FONT.render(f"{round(self.distance_to_sun/1000, 1)} km", 1, WHITE)
+            win.blit(distance_text, (x - distance_text.get_width()/2, y - distance_text.get_height()/2))
+
 
 
     def attraction(self, other): #other is the other planet
@@ -76,7 +91,7 @@ class Planet:
             total_fx += fx
             total_fy += fy
         
-        self.x_vel += total_fx / self.mass * self.TIMESTEP #  a = f/a * total 24 hours not going faster just chaning directions in time
+        self.x_vel += total_fx / self.mass * self.TIMESTEP #  a = f/m * total 24 hours not going faster just chaning directions in time
         self.y_vel += total_fy / self.mass * self.TIMESTEP
 
         self.x += self.x_vel * self.TIMESTEP
